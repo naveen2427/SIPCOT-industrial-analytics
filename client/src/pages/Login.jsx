@@ -10,8 +10,29 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [roleType, setRoleType] = useState('company_admin');
+  const [approvedCompanies, setApprovedCompanies] = useState([]);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const submissions = JSON.parse(localStorage.getItem('mockSubmissions') || '[]');
+    const approved = submissions.filter(s => s.status === 'approved');
+    setApprovedCompanies(approved);
+  }, []);
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError("Please enter your email address first to reset your password.");
+      return;
+    }
+    const newPass = window.prompt(`Enter a new password for ${email}:`);
+    if (newPass) {
+      localStorage.setItem(`company_password_${email}`, newPass);
+      setError('');
+      alert(`Password updated successfully! You can now log in with your new password.`);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,9 +56,17 @@ const Login = () => {
           setLoading(false);
           return;
         }
+        
+        // Check password (default 123, or what they set in forgot password)
+        const savedPass = localStorage.getItem(`company_password_${email}`);
+        if (password !== '123' && password !== savedPass) {
+          setError('Incorrect password.');
+          setLoading(false);
+          return;
+        }
       } else if (roleType === 'sipcot_admin') {
-        if (domain !== 'sipcot.com' && domain !== 'sipcot.gov.in') {
-          setError('Website Admin login requires a valid SIPCOT domain (@sipcot.com or @sipcot.gov.in).');
+        if (email !== 'admin@sipcot.com' || password !== 'admin123') {
+          setError('Invalid Website Admin credentials.');
           setLoading(false);
           return;
         }
@@ -147,7 +176,12 @@ const Login = () => {
           
           <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5 ml-1">Email Address</label>
+              <div className="flex justify-between items-end mb-1.5 ml-1">
+                <label className="block text-sm font-medium text-slate-300">Email Address</label>
+                {roleType === 'sipcot_admin' && (
+                  <span className="text-xs text-slate-500">Hint: admin@sipcot.com</span>
+                )}
+              </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
@@ -161,12 +195,36 @@ const Login = () => {
                   placeholder={roleType === 'sipcot_admin' ? "admin@sipcot.com" : "admin@company.com"}
                 />
               </div>
+
+              {roleType === 'company_admin' && approvedCompanies.length > 0 && (
+                <div className="mt-3 ml-1">
+                  <p className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mb-2">Approved Company Suggestions:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {approvedCompanies.map(company => {
+                      const domain = company.company.toLowerCase().replace(/\s+/g, '') + '.com';
+                      const suggEmail = `admin@${domain}`;
+                      return (
+                        <button
+                          key={company.id}
+                          type="button"
+                          onClick={() => {
+                            setEmail(suggEmail);
+                          }}
+                          className="text-xs px-2.5 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all"
+                        >
+                          {company.company}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
             
             <div>
               <div className="flex items-center justify-between mb-1.5 ml-1 mr-1">
                 <label className="block text-sm font-medium text-slate-300">Password</label>
-                <a href="#" className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</a>
+                <button type="button" onClick={handleForgotPassword} className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">Forgot password?</button>
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
