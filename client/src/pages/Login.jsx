@@ -47,62 +47,26 @@ const Login = () => {
         return;
       }
       
-      const domain = emailParts[1].toLowerCase();
+      const { apiCall } = await import('../utils/api');
+      
+      const responseData = await apiCall('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, role: roleType, password })
+      });
+
+      login({
+        ...responseData.user,
+        token: responseData.token
+      });
       
       if (roleType === 'company_admin') {
-        const publicDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'aol.com'];
-        if (publicDomains.includes(domain)) {
-          setError('Please use your company domain email for Company Admin login (e.g., admin@yourcompany.com).');
-          setLoading(false);
-          return;
-        }
-        
-        // Check password (default 123, or what they set in forgot password)
-        const savedPass = localStorage.getItem(`company_password_${email}`);
-        if (password !== '123' && password !== savedPass) {
-          setError('Incorrect password.');
-          setLoading(false);
-          return;
-        }
-      } else if (roleType === 'sipcot_admin') {
-        if (email !== 'admin@sipcot.com' || password !== 'admin123') {
-          setError('Invalid Website Admin credentials.');
-          setLoading(false);
-          return;
-        }
+        navigate(`/companies/${responseData.user.id || 'company-id'}`);
+      } else {
+        navigate('/dashboard');
       }
-
-      // Mock login for now
-      setTimeout(() => {
-        login({
-          id: roleType === 'sipcot_admin' ? 'admin-id' : 'company-id',
-          name: email.split('@')[0],
-          email,
-          role: roleType,
-          domain: domain,
-          token: 'mock-jwt-token'
-        });
-        
-        if (roleType === 'company_admin') {
-          const submissions = JSON.parse(localStorage.getItem('mockSubmissions') || '[]');
-          const companyNameGuess = domain.split('.')[0].toLowerCase();
-          const found = [...submissions].reverse().find(s => 
-            s.company.toLowerCase().includes(companyNameGuess) || 
-            companyNameGuess.includes(s.company.toLowerCase().replace(/\s+/g, ''))
-          );
-          
-          if (found) {
-            navigate(`/companies/${found.id}`);
-          } else {
-            navigate('/dashboard');
-          }
-        } else {
-          navigate('/dashboard');
-        }
-      }, 1000);
       
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.message || 'Login failed. Please check your credentials.');
       setLoading(false);
     }
   };

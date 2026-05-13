@@ -43,35 +43,23 @@ const Register = () => {
     setLoading(true);
     
     try {
-      // Mock registration & submission
-      setTimeout(() => {
-        const newSubmission = {
-          id: Math.floor(Math.random() * 1000) + 200,
-          type: 'Registration',
-          company: formData.companyName,
-          sector: formData.sector,
-          park: formData.park,
-          date: new Date().toISOString().split('T')[0],
-          status: 'Pending',
-          document: document.name
-        };
-        
-        const existing = JSON.parse(localStorage.getItem('mockSubmissions') || '[]');
-        localStorage.setItem('mockSubmissions', JSON.stringify([...existing, newSubmission]));
+      // Import apiCall dynamically or assume it's imported at top
+      const { apiCall } = await import('../utils/api');
+      
+      const responseData = await apiCall('/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(formData)
+      });
 
-        login({
-          id: 'mock-id-new',
-          name: formData.companyName,
-          email: formData.email,
-          sector: formData.sector,
-          role: formData.role,
-          token: 'mock-jwt-token-new'
-        });
-        navigate(`/companies/${newSubmission.id}`);
-      }, 1000);
+      login({
+        ...responseData.user,
+        token: responseData.token || 'mock-token'
+      });
+      
+      navigate(`/companies/${responseData.user?.id || 'new'}`);
       
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      setError(err.message || 'Registration failed. Please try again.');
       setLoading(false);
     }
   };
