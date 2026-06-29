@@ -142,9 +142,6 @@ const Login = () => {
             <div>
               <div className="flex justify-between items-end mb-1.5 ml-1">
                 <label className="block text-sm font-medium text-slate-300">Email Address</label>
-                {roleType === 'sipcot_admin' && (
-                  <span className="text-xs text-slate-500">Hint: admin@sipcot.com</span>
-                )}
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">

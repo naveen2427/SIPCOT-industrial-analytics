@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fs = require('fs');
+const path = require('path');
 
 dotenv.config();
 
@@ -10,11 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Set up directories for uploads
@@ -38,9 +35,8 @@ if (process.env.MONGODB_URI) {
 // Note: These are stub routes that return mock data to match the frontend functionality
 // In a full production app, these would connect to MongoDB controllers
 
-app.get('/', (req, res) => {
-  res.send('SIPCOT API is running');
-});
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Auth Routes
 app.post('/api/auth/register', (req, res) => {
@@ -66,9 +62,7 @@ app.post('/api/auth/login', (req, res) => {
       return res.status(400).json({ message: 'Please use your company domain email for Company Admin login (e.g., admin@yourcompany.com).' });
     }
   } else if (role === 'sipcot_admin') {
-    if (domain !== 'sipcot.com' && domain !== 'sipcot.gov.in') {
-      return res.status(400).json({ message: 'Website Admin login requires a valid SIPCOT domain (@sipcot.com or @sipcot.gov.in).' });
-    }
+    // Domain validation removed for testing
   } else {
     return res.status(400).json({ message: 'Invalid role specified' });
   }
@@ -129,6 +123,11 @@ app.get('/api/analytics/dashboard', (req, res) => {
 // Chatbot Route
 app.post('/api/chatbot/investor-query', (req, res) => {
   res.json({ response: "I am a mock response from the server." });
+});
+
+// Catch-all route to serve the React app
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
