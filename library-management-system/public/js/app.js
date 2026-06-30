@@ -543,8 +543,75 @@ async function loadGenresDropdown() {
   }
 }
 
-// Boot
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadDashboardData(); // populates genres stats first
+// Authentication Flow
+window.handleLoginSubmit = function(event) {
+  event.preventDefault();
+  
+  // Reset errors
+  document.getElementById('login-group-email').classList.remove('has-error');
+  document.getElementById('login-err-email').textContent = '';
+  document.getElementById('login-group-password').classList.remove('has-error');
+  document.getElementById('login-err-password').textContent = '';
+
+  const email = document.getElementById('inp-login-email').value.trim();
+  const password = document.getElementById('inp-login-password').value.trim();
+
+  let hasError = false;
+
+  if (!email) {
+    document.getElementById('login-group-email').classList.add('has-error');
+    document.getElementById('login-err-email').textContent = 'Librarian email is required.';
+    hasError = true;
+  }
+  
+  if (!password) {
+    document.getElementById('login-group-password').classList.add('has-error');
+    document.getElementById('login-err-password').textContent = 'Librarian password is required.';
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  if (email === 'librarian@granth.in' && password === 'granth_admin') {
+    sessionStorage.setItem('granth_session', 'active');
+    showApplication();
+  } else {
+    if (email !== 'librarian@granth.in') {
+      document.getElementById('login-group-email').classList.add('has-error');
+      document.getElementById('login-err-email').textContent = 'Librarian email not registered.';
+    } else {
+      document.getElementById('login-group-password').classList.add('has-error');
+      document.getElementById('login-err-password').textContent = 'Invalid administrator password.';
+    }
+  }
+};
+
+window.handleLogout = function(event) {
+  if (event) event.preventDefault();
+  sessionStorage.removeItem('granth_session');
+  showLogin();
+};
+
+function showLogin() {
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-form').reset();
+}
+
+async function showApplication() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'flex';
+  
+  // Boot data
+  await loadDashboardData();
   await loadGenresDropdown();
+}
+
+// Boot Check
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('granth_session') === 'active') {
+    showApplication();
+  } else {
+    showLogin();
+  }
 });
