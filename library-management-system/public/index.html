@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Library Catalog & Loan Registry</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <div class="logo-icon">L</div>
+      <span class="logo-text">GranthOS</span>
+    </div>
+    
+    <nav>
+      <ul class="nav-list">
+        <li>
+          <a class="nav-item active" id="nav-dashboard" onclick="switchView('dashboard')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" id="nav-books" onclick="switchView('books')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+            </svg>
+            <span>Book Catalog</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" id="nav-members" onclick="switchView('members')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0 1 10.089 21c-2.331 0-4.512-.647-6.366-1.773a3.25 3.25 0 0 1-1.077-3.907 9.145 9.145 0 0 1 12.138-4.498m3.75-2.25a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.5 7.5a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 8.25c0-1.34.733-2.518 1.812-3.136a5.952 5.952 0 0 1 5.376 0A3.804 3.804 0 0 1 14 15.75V17H5v-1.25Z" />
+            </svg>
+            <span>Members Registry</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-item" id="nav-loans" onclick="switchView('loans')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+            </svg>
+            <span>Loans & Returns</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <p>GranthOS v1.0</p>
+      <p style="margin-top: 4px;">Relational DB Active</p>
+    </div>
+  </aside>
+
+  <!-- Main View -->
+  <main class="main-content">
+    
+    <!-- Top Glass Header -->
+    <header>
+      <div class="header-title">
+        <h1 id="view-title">Dashboard Overview</h1>
+      </div>
+      
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="openBorrowModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:16px;height:16px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Issue/Borrow Book
+        </button>
+        <button class="btn btn-primary" onclick="openBookModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:16px;height:16px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Add New Book
+        </button>
+      </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <div class="container">
+      
+      <!-- ============================================== -->
+      <!-- VIEW 1: DASHBOARD OVERVIEW -->
+      <!-- ============================================== -->
+      <section id="view-dashboard" class="dashboard-view-content" style="display: flex; flex-direction: column; gap: 32px;">
+        
+        <!-- Summary Cards Grid -->
+        <div class="widgets-grid">
+          <div class="widget-card total">
+            <span class="widget-label">Total Books</span>
+            <span class="widget-value" id="stat-total-books">-</span>
+          </div>
+          <div class="widget-card loans">
+            <span class="widget-label">Books Checked Out</span>
+            <span class="widget-value" id="stat-checked-out">-</span>
+          </div>
+          <div class="widget-card overdue">
+            <span class="widget-label">Overdue Book Loans</span>
+            <span class="widget-value" id="stat-overdue">-</span>
+          </div>
+          <div class="widget-card members">
+            <span class="widget-label">Registered Members</span>
+            <span class="widget-value" id="stat-total-members">-</span>
+          </div>
+        </div>
+
+        <!-- Analytical Charts Row -->
+        <div class="analytics-section">
+          <!-- Headcount Bar Chart -->
+          <div class="analytics-card">
+            <div class="card-header">
+              <span class="card-title">Book Distribution by Genre</span>
+            </div>
+            <div class="chart-container" id="svg-chart-container">
+              <!-- Inline Dynamic SVG Chart will be inserted by JS -->
+            </div>
+          </div>
+          
+          <!-- Genre Summary list -->
+          <div class="analytics-card">
+            <div class="card-header">
+              <span class="card-title">Catalog Genres</span>
+            </div>
+            <div class="genre-breakdown-list" id="genre-list-container">
+              <!-- Department summary metadata loaded dynamically -->
+            </div>
+          </div>
+        </div>
+        
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 2: BOOK CATALOG -->
+      <!-- ============================================== -->
+      <section id="view-books" class="catalog-section" style="display: none;">
+        
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.601Z" />
+            </svg>
+            <input type="text" id="search-books" class="form-control" placeholder="Search books by title, author, or ISBN..." oninput="handleBookSearch(event)">
+          </div>
+          
+          <select id="filter-genre" class="form-control filter-select" onchange="applyBookFilters()">
+            <option value="">All Genres</option>
+            <!-- Populated dynamically -->
+          </select>
+          
+          <select id="filter-availability" class="form-control filter-select" onchange="applyBookFilters()">
+            <option value="">All Copies</option>
+            <option value="true">Available Only</option>
+          </select>
+          
+          <select id="sort-books" class="form-control filter-select" onchange="applyBookFilters()">
+            <option value="title">Sort By Title</option>
+            <option value="author">Sort By Author</option>
+            <option value="published_year">Sort By Publish Year</option>
+            <option value="available_copies">Sort By Availability</option>
+          </select>
+
+          <button class="btn btn-secondary" onclick="resetBookFilters()">Reset</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Title / Author</th>
+                <th>ISBN</th>
+                <th>Genre</th>
+                <th>Shelf</th>
+                <th>Year</th>
+                <th>Availability</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="books-table-body">
+              <!-- Loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination-container">
+          <div class="pagination-info" id="books-pagination-text">
+            Showing 0 to 0 of 0 books
+          </div>
+          <div class="pagination-controls">
+            <button class="btn btn-secondary" id="btn-books-prev" onclick="changeBookPage(-1)">Previous</button>
+            <button class="btn btn-secondary" id="btn-books-next" onclick="changeBookPage(1)">Next</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 3: MEMBERS REGISTRY -->
+      <!-- ============================================== -->
+      <section id="view-members" class="catalog-section" style="display: none;">
+        
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.601Z" />
+            </svg>
+            <input type="text" id="search-members" class="form-control" placeholder="Search members by name, email, or phone..." oninput="handleMemberSearch(event)">
+          </div>
+          
+          <select id="filter-member-status" class="form-control filter-select" onchange="applyMemberFilters()">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Suspended">Suspended</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <button class="btn btn-secondary" onclick="resetMemberFilters()">Reset</button>
+          <button class="btn btn-primary" onclick="openMemberModal()" style="margin-left: auto;">Register Member</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Member Details</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+                <th>Joined Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="members-table-body">
+              <!-- Loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination-container">
+          <div class="pagination-info" id="members-pagination-text">
+            Showing 0 to 0 of 0 members
+          </div>
+          <div class="pagination-controls">
+            <button class="btn btn-secondary" id="btn-members-prev" onclick="changeMemberPage(-1)">Previous</button>
+            <button class="btn btn-secondary" id="btn-members-next" onclick="changeMemberPage(1)">Next</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 4: LOANS & RETURNS -->
+      <!-- ============================================== -->
+      <section id="view-loans" class="catalog-section" style="display: none;">
+        
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.601Z" />
+            </svg>
+            <input type="text" id="search-loans" class="form-control" placeholder="Search loan logs by book title or member name..." oninput="handleLoanSearch(event)">
+          </div>
+          
+          <select id="filter-loan-status" class="form-control filter-select" onchange="applyLoanFilters()">
+            <option value="">All Transactions</option>
+            <option value="true">Active Loans (Outstanding)</option>
+          </select>
+
+          <button class="btn btn-secondary" onclick="resetLoanFilters()">Reset</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Borrowed Book</th>
+                <th>Member / Borrower</th>
+                <th>Checkout Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Accrued Fine (₹)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="loans-table-body">
+              <!-- Loaded dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination-container">
+          <div class="pagination-info" id="loans-pagination-text">
+            Showing 0 to 0 of 0 loan logs
+          </div>
+          <div class="pagination-controls">
+            <button class="btn btn-secondary" id="btn-loans-prev" onclick="changeLoanPage(-1)">Previous</button>
+            <button class="btn btn-secondary" id="btn-loans-next" onclick="changeLoanPage(1)">Next</button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT BOOK -->
+  <!-- ============================================== -->
+  <div class="overlay" id="book-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="book-modal-title">Add New Book</h3>
+        <button class="close-btn" onclick="closeBookModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="book-form" onsubmit="handleBookSubmit(event)" novalidate>
+          <input type="hidden" id="form-book-id">
+          <div class="form-grid">
+            <div class="form-group form-full" id="group-title">
+              <label for="inp-book-title">Book Title *</label>
+              <input type="text" id="inp-book-title" class="form-control" required minlength="2">
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-author">
+              <label for="inp-book-author">Author *</label>
+              <input type="text" id="inp-book-author" class="form-control" required minlength="2">
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-isbn">
+              <label for="inp-book-isbn">ISBN Code *</label>
+              <input type="text" id="inp-book-isbn" class="form-control" placeholder="e.g. 9788173711466" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-genre">
+              <label for="inp-book-genre">Genre *</label>
+              <input type="text" id="inp-book-genre" class="form-control" placeholder="e.g. Fiction, History, Science" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-published_year">
+              <label for="inp-book-year">Publish Year *</label>
+              <input type="number" id="inp-book-year" class="form-control" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-total_copies">
+              <label for="inp-book-copies">Total Copies *</label>
+              <input type="number" id="inp-book-copies" class="form-control" min="1" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-shelf_location">
+              <label for="inp-book-shelf">Shelf Location / Rack *</label>
+              <input type="text" id="inp-book-shelf" class="form-control" placeholder="e.g. Shelf A-3" required>
+              <div class="form-error-msg"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeBookModal()">Cancel</button>
+        <button type="submit" form="book-form" class="btn btn-primary" id="btn-save-book">Add Book</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: REGISTER / EDIT MEMBER -->
+  <!-- ============================================== -->
+  <div class="overlay" id="member-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="member-modal-title">Register Library Member</h3>
+        <button class="close-btn" onclick="closeMemberModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="member-form" onsubmit="handleMemberSubmit(event)" novalidate>
+          <input type="hidden" id="form-member-id">
+          <div class="form-grid">
+            <div class="form-group" id="group-first_name">
+              <label for="inp-member-firstname">First Name *</label>
+              <input type="text" id="inp-member-firstname" class="form-control" required minlength="2">
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-last_name">
+              <label for="inp-member-lastname">Last Name *</label>
+              <input type="text" id="inp-member-lastname" class="form-control" required minlength="2">
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group form-full" id="group-email">
+              <label for="inp-member-email">Email Address *</label>
+              <input type="email" id="inp-member-email" class="form-control" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-phone">
+              <label for="inp-member-phone">Phone Number *</label>
+              <input type="text" id="inp-member-phone" class="form-control" placeholder="e.g. +91 98765 00000" required>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-status">
+              <label for="inp-member-status">Membership Status *</label>
+              <select id="inp-member-status" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Suspended">Suspended</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <div class="form-error-msg"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeMemberModal()">Cancel</button>
+        <button type="submit" form="member-form" class="btn btn-primary" id="btn-save-member">Register Member</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: BORROW / ISSUE BOOK -->
+  <!-- ============================================== -->
+  <div class="overlay" id="borrow-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Issue Book Checkout</h3>
+        <button class="close-btn" onclick="closeBorrowModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="borrow-form" onsubmit="handleBorrowSubmit(event)" novalidate>
+          <div class="form-grid">
+            <div class="form-group form-full" id="group-book_id">
+              <label for="inp-borrow-book">Select Book *</label>
+              <select id="inp-borrow-book" class="form-control" required>
+                <!-- Loaded dynamically -->
+              </select>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group form-full" id="group-member_id">
+              <label for="inp-borrow-member">Select Member *</label>
+              <select id="inp-borrow-member" class="form-control" required>
+                <!-- Loaded dynamically -->
+              </select>
+              <div class="form-error-msg"></div>
+            </div>
+            
+            <div class="form-group" id="group-borrow_days">
+              <label for="inp-borrow-days">Loan Duration (Days) *</label>
+              <input type="number" id="inp-borrow-days" class="form-control" value="14" min="1" max="60" required>
+              <div class="form-error-msg"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeBorrowModal()">Cancel</button>
+        <button type="submit" form="borrow-form" class="btn btn-primary">Confirm Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- DRAWER: MEMBER DETAILS & HISTORIES -->
+  <!-- ============================================== -->
+  <div class="drawer" id="member-drawer">
+    <div class="drawer-header">
+      <h3 class="modal-title">Library Card Inspector</h3>
+      <button class="close-btn" onclick="closeDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body" id="drawer-content">
+      <!-- Loaded dynamically -->
+    </div>
+  </div>
+
+  <!-- Javascript Modules -->
+  <script src="/js/api.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

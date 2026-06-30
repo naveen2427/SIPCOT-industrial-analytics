@@ -1,0 +1,47 @@
+:root {
+  /* HSL Color Tokens - Dark Academic Amber/Teal Theme */
+  --bg-main: hsl(210, 35%, 6%);
+  --bg-surface: hsla(210, 30%, 11%, 0.7);
+  --bg-surface-elevated: hsla(210, 30%, 15%, 0.85);
+  
+  --border-color: hsla(210, 20%, 18%, 0.85);
+  --border-color-glow: hsla(38, 92%, 50%, 0.3);
+  
+  --primary: hsl(38, 92%, 50%); /* Amber Gold */
+  --primary-hover: hsl(38, 92%, 60%);
+  --primary-glow: hsla(38, 92%, 50%, 0.35);
+  
+  --success: hsl(172, 70%, 40%); /* Teal */
+  --success-glow: hsla(172, 70%, 40%, 0.25);
+  
+  --warning: hsl(28, 90%, 55%); /* Orange */
+  --warning-glow: hsla(28, 90%, 55%, 0.25);
+  
+  --danger: hsl(346, 80%, 55%); /* Rose */
+  --danger-glow: hsla(346, 80%, 55%, 0.25);
+  
+  --text-primary: hsl(210, 20%, 98%);
+  --text-secondary: hsl(210, 15%, 70%);
+  --text-muted: hsl(210, 12%, 50%);
+  
+  /* Typography */
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-height: 70px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 14px;
+  --border-radius-lg: 20px;
+  
+  /* Effects */
+  --backdrop-blur: blur(12px) saturate(180%);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px hsla(38, 92%, 50%, 0.15);
+  
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
