@@ -124,9 +124,12 @@ window.components = {
     
     tr.innerHTML = `
       <td>
-        <div>
-          <div class="book-title-cell">${book.title}</div>
-          <div class="book-author-cell">${book.author}</div>
+        <div class="book-row-detail">
+          <img src="/images/book_cover_placeholder.png" alt="Book cover" class="book-cover-thumbnail" />
+          <div>
+            <div class="book-title-cell">${book.title}</div>
+            <div class="book-author-cell">${book.author}</div>
+          </div>
         </div>
       </td>
       <td><span style="font-family: monospace; font-weight:500;">${book.isbn}</span></td>
@@ -253,6 +256,18 @@ window.components = {
 
     const activeLoans = logs.filter(log => log.action === 'CHECKED_OUT' && !logs.some(l => l.action === 'RETURNED' && l.book_id === log.book_id && new Date(l.timestamp) > new Date(log.timestamp)));
 
+    const activeLoansHtml = activeLoans && activeLoans.length > 0
+      ? activeLoans.map(loan => `
+          <div class="book-row-detail" style="background-color: var(--bg-surface-elevated); padding: 8px 12px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-top: 6px; display: flex; align-items: center; gap: 12px;">
+            <img src="/images/book_cover_placeholder.png" alt="Book cover" class="book-cover-thumbnail" style="width: 30px; height: 42px;" />
+            <div>
+              <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">${loan.book_title}</div>
+              <div style="font-size: 0.75rem; color: var(--danger);">Due: ${loan.details.dueDate}</div>
+            </div>
+          </div>
+        `).join('')
+      : '<div style="color:var(--text-muted); font-size:0.8rem; margin-top: 6px;">No outstanding book loans.</div>';
+
     const logItemsHtml = logs && logs.length > 0
       ? logs.map(log => {
           const actionClass = log.action.toLowerCase();
@@ -305,9 +320,11 @@ window.components = {
           <span class="info-label">Membership Tenure</span>
           <span class="info-value" style="color:var(--primary); font-weight:600;">${tenureStr}</span>
         </div>
-        <div class="info-item">
-          <span class="info-label">Outstanding Loans</span>
-          <span class="info-value" style="font-weight:600;">${activeLoans.length} active (Max: 3)</span>
+        <div class="info-item" style="grid-column: span 2; margin-top: 8px;">
+          <span class="info-label">Outstanding Loans (${activeLoans.length} active / Max: 3)</span>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            ${activeLoansHtml}
+          </div>
         </div>
       </div>
 

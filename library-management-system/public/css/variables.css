@@ -1,28 +1,28 @@
 :root {
-  /* HSL Color Tokens - Dark Academic Amber/Teal Theme */
-  --bg-main: hsl(210, 35%, 6%);
-  --bg-surface: hsla(210, 30%, 11%, 0.7);
-  --bg-surface-elevated: hsla(210, 30%, 15%, 0.85);
+  /* HSL Color Tokens - Premium Light Theme */
+  --bg-main: hsl(210, 40%, 98%);
+  --bg-surface: hsl(0, 0%, 100%);
+  --bg-surface-elevated: hsl(210, 30%, 96%);
   
-  --border-color: hsla(210, 20%, 18%, 0.85);
-  --border-color-glow: hsla(38, 92%, 50%, 0.3);
+  --border-color: hsl(210, 20%, 90%);
+  --border-color-glow: hsla(24, 75%, 50%, 0.2);
   
-  --primary: hsl(38, 92%, 50%); /* Amber Gold */
-  --primary-hover: hsl(38, 92%, 60%);
-  --primary-glow: hsla(38, 92%, 50%, 0.35);
+  --primary: hsl(24, 75%, 50%); /* Terracotta Amber */
+  --primary-hover: hsl(24, 75%, 40%);
+  --primary-glow: hsla(24, 75%, 50%, 0.15);
   
-  --success: hsl(172, 70%, 40%); /* Teal */
-  --success-glow: hsla(172, 70%, 40%, 0.25);
+  --success: hsl(150, 60%, 35%); /* Deep Emerald */
+  --success-glow: hsla(150, 60%, 35%, 0.1);
   
-  --warning: hsl(28, 90%, 55%); /* Orange */
-  --warning-glow: hsla(28, 90%, 55%, 0.25);
+  --warning: hsl(35, 80%, 45%); /* Ochre */
+  --warning-glow: hsla(35, 80%, 45%, 0.1);
   
-  --danger: hsl(346, 80%, 55%); /* Rose */
-  --danger-glow: hsla(346, 80%, 55%, 0.25);
+  --danger: hsl(350, 70%, 45%); /* Rose */
+  --danger-glow: hsla(350, 70%, 45%, 0.1);
   
-  --text-primary: hsl(210, 20%, 98%);
-  --text-secondary: hsl(210, 15%, 70%);
-  --text-muted: hsl(210, 12%, 50%);
+  --text-primary: hsl(210, 35%, 15%); /* Deep Slate */
+  --text-secondary: hsl(210, 15%, 45%);
+  --text-muted: hsl(210, 10%, 65%);
   
   /* Typography */
   --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -35,11 +35,11 @@
   --border-radius-lg: 20px;
   
   /* Effects */
-  --backdrop-blur: blur(12px) saturate(180%);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px hsla(38, 92%, 50%, 0.15);
+  --backdrop-blur: blur(20px);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 4px 14px hsla(24, 75%, 50%, 0.2);
   
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
