@@ -1,0 +1,16 @@
+{
+  "name": "employee-management-system",
+  "version": "1.0.0",
+  "description": "Premium Full-Stack Employee Management System with OOP backend, SQLite, and custom vanilla CSS frontend.",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "verify": "node verify.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
